@@ -25,8 +25,8 @@
 
 class Symbol {
     public:
-        Symbol(std::uint8_t symbol);
-        
+        Symbol(std::uint8_t symbol = 0);
+
         virtual ~Symbol() {
         }
 
