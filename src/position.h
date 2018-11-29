@@ -26,11 +26,16 @@
 #include "direction.h"
 
 struct Position {
-    Position() : x{0}, y{0} {
+    constexpr Position() : x{0}, y{0} {
     }
 
-    Position(size_t x, size_t y) : x{x}, y{y} {
+    constexpr Position(size_t x, size_t y) : x{x}, y{y} {
     }
+
+    constexpr Position(Direction dir) : x{0}, y{0} {
+        setNewPosition(dir);
+    }
+
     size_t x;
     size_t y;
 
@@ -89,9 +94,6 @@ struct Position {
                 y--;
                 x--;
                 break;
-        }
-        if(y < 0 || !x < 0) {
-            throw -1; // TODO: Out of range exception
         }
     }
 };
