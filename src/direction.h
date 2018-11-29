@@ -35,6 +35,29 @@ enum Direction {
     TOP_LEFT     = 128
 };
 
+inline Direction getDirectionByArrowKeys(int key) {
+    switch(key) {
+        case 1:
+            return BOTTOM_LEFT;
+        case 2:
+            return BOTTOM;
+        case 3:
+            return BOTTOM_RIGHT;
+        case 4:
+            return LEFT;
+        case 5:
+            return UNSET;
+        case 6:
+            return RIGHT;
+        case 7:
+            return TOP_LEFT;
+        case 8:
+            return TOP;
+        case 9:
+            return TOP_RIGHT;
+    }
+}
+
 inline std::string getDirectionAsString(Direction dir) {
     switch(dir) {
         case UNSET:
