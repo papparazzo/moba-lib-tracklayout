@@ -2,7 +2,9 @@ AUTOMAKE_OPTIONS = subdir-objects
 noinst_LIBRARIES = \
     libtracklayout.a
 libtracklayout_a_SOURCES = \
-    symbol.cpp
+    symbol.cpp \
+    actuation.cpp \
+    overlay_block.cpp
 
 LDFLAGS += -L/usr/local/lib
 
