@@ -55,6 +55,12 @@ struct Position {
         return Position(pos.x - x, pos.y - y);
     }
 
+    Position grow(Position pos) {
+        x = pos.x > x ? pos.x : x;
+        y = pos.y > y ? pos.y : y;
+        return {x, y};
+    }
+
     /**
      * setzt den Cursor (Position) in die Richtung welche mit Direction
      * angegeben ist. Beispiel: Direction RIGHT -> x einen weiter nach rechts
