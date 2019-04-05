@@ -22,6 +22,7 @@
 
 #include <exception>
 #include <string>
+#include <map>
 
 #include "position.h"
 
@@ -46,49 +47,35 @@ class ContainerException : public std::exception {
 
 template<typename T>
 class Container {
-    // TODO: Hier besser eine Map verwenden!!
-
     public:
-        Container(size_t width, size_t height):
-            width{width}, height{height}
-        {
-            if(height == 0 || width == 0) {
-                throw ContainerException{"Dimensions out of range!"};
-            }
+        Container() {
+        }
 
-            items = new T*[width];
-
-            for(size_t i = 0; i < width; ++i) {
-                items[i] = new T[height];
-            }
+        Container(std::size_t width, std::size_t height): maxPosition{width, height} {
         }
 
         virtual ~Container() {
-            for(size_t i = 0; i < width; ++i) {
-                delete[] items[i];
-            }
-            delete[] items;
         }
 
-        size_t getHeight() const {
-            return height;
+        std::size_t getHeight() const {
+            return maxPosition.y;
         }
 
-        size_t getWidth() const {
-            return width;
+        std::size_t getWidth() const {
+            return maxPosition.x;
         }
 
         Position getCurrentPosition() const {
-            return position;
+            return curPosition;
         }
 
         void setCurrentPosition(const Position &pos) {
             checkPosition(pos);
-            position = pos;
+            curPosition = pos;
         }
 
         void addItem(const Position &pos, T item) const {
-            checkPosition(pos);
+            maxPosition.grow(pos);
             items[pos.x][pos.y] = item;
         }
 
@@ -100,15 +87,15 @@ class Container {
             return items[pos.x][pos.y];
         }
 
-        T getCurrent() const {
-            return this->get(position.x, position.y);
+        T get() const {
+            return get(curPosition);
         }
 
-        size_t itemsCount() const {
-            size_t cnt = 0;
-            for(size_t y = 0; y < height; ++y) {
-                for(size_t x = 0; x < width; ++x) {
-                    if(static_cast<bool>(this->items[x][y])) {
+        std::size_t itemsCount() const {
+            std::size_t cnt = 0;
+            for(std::size_t y = 0; y < maxPosition.y; ++y) {
+                for(std::size_t x = 0; x < maxPosition.x; ++x) {
+                    if(static_cast<bool>(items[x][y])) {
                         cnt++;;
                     }
                 }
@@ -117,9 +104,9 @@ class Container {
         }
 
         Position getNextFreePosition(const Position &pos) {
-            for(size_t y = pos.y; y < height; ++y) {
-                for(size_t x = pos.x; x < width; ++x) {
-                    if((bool)items[x][y]) {
+            for(std::size_t y = 0; y < maxPosition.y; ++y) {
+                for(std::size_t x = 0; x < maxPosition.x; ++x) {
+                    if(static_cast<bool>(items[x][y])) {
                         continue;
                     }
                     return {x, y};
@@ -129,9 +116,9 @@ class Container {
         }
 
         Position getNextBoundPosition(const Position &pos) {
-            for(size_t y = pos.y; y < height; ++y) {
-                for(size_t x = pos.x; x < this->width; ++x) {
-                    if(!(bool)items[x][y]) {
+            for(std::size_t y = 0; y < maxPosition.y; ++y) {
+                for(std::size_t x = 0; x < maxPosition.x; ++x) {
+                    if(!static_cast<bool>(items[x][y])) {
                         continue;
                     }
                     return {x, y};
@@ -142,16 +129,15 @@ class Container {
 
     protected:
         void checkPosition(const Position &pos) const {
-            if(pos.x >= width || pos.y >= height) {
+            if(pos.x >= maxPosition.x || pos.y >= maxPosition.y) {
                 throw ContainerException{"Dimensions out of range!"};
             }
         }
 
-        size_t width;
-        size_t height;
-        Position position = {0, 0};
+        Position maxPosition = {0, 0};
+        Position curPosition = {0, 0};
 
-        T **items;
+        std::map<std::size_t, std::map<std::size_t, T>> items;
 };
 
 
