@@ -172,18 +172,18 @@ void Symbol::reset() {
 }
 
 bool Symbol::isJunctionSet(Direction dir) const {
-    return symbolDyn & dir;
+    return symbolDyn & static_cast<std::uint8_t>(dir);
 }
 
 bool Symbol::isOpenJunctionSet(Direction dir) const {
-    return symbolFix & dir;
+    return symbolFix & static_cast<std::uint8_t>(dir);
 }
 
 void Symbol::removeJunktion(Direction dir) {
-     if(!(symbolDyn & dir)) {
+     if(!(symbolDyn & static_cast<std::uint8_t>(dir))) {
          throw std::out_of_range("junction not set");
      }
-     symbolDyn &= ~dir;
+     symbolDyn &= ~static_cast<std::uint8_t>(dir);
 }
 
 std::uint8_t Symbol::rotate(std::uint8_t symbol) {
@@ -195,7 +195,7 @@ std::uint8_t Symbol::rotate(std::uint8_t symbol) {
 
 int Symbol::countJunktions(std::uint8_t symbol) const {
     int counter = 0;
-    std::uint8_t b = Direction::TOP;
+    auto b = static_cast<std::uint8_t>(Direction::TOP);
     for(int i = 0; i < 8; ++i) {
         if(symbol & b) {
             ++counter;
@@ -206,7 +206,7 @@ int Symbol::countJunktions(std::uint8_t symbol) const {
 }
 
 Direction Symbol::nextJunktion(std::uint8_t symbol, Direction start) const {
-    std::uint8_t b = start;
+    auto b = static_cast<std::uint8_t>(start);
     for(int i = 0; i < 8; ++i) {
         if(symbol & b) {
             return static_cast<Direction>(b);

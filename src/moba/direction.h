@@ -38,66 +38,66 @@ enum Direction {
 inline Direction getDirectionByArrowKeys(int key) {
     switch(key) {
         case 1:
-            return BOTTOM_LEFT;
+            return Direction::BOTTOM_LEFT;
         case 2:
-            return BOTTOM;
+            return Direction::BOTTOM;
         case 3:
-            return BOTTOM_RIGHT;
+            return Direction::BOTTOM_RIGHT;
         case 4:
-            return LEFT;
+            return Direction::LEFT;
         case 5:
-            return UNSET;
+            return Direction::UNSET;
         case 6:
-            return RIGHT;
+            return Direction::RIGHT;
         case 7:
-            return TOP_LEFT;
+            return Direction::TOP_LEFT;
         case 8:
-            return TOP;
+            return Direction::TOP;
         case 9:
-            return TOP_RIGHT;
+            return Direction::TOP_RIGHT;
     }
 }
 
 inline std::string getDirectionAsString(Direction dir) {
     switch(dir) {
-        case UNSET:
+        case Direction::UNSET:
             return "UNSET";
 
-        case TOP:
+        case Direction::TOP:
             return "TOP";
 
-        case TOP_RIGHT:
+        case Direction::TOP_RIGHT:
             return "TOP_RIGHT";
 
-        case RIGHT:
+        case Direction::RIGHT:
             return "RIGHT";
 
-        case BOTTOM_RIGHT:
+        case Direction::BOTTOM_RIGHT:
             return "BOTTOM_RIGHT";
 
-        case  BOTTOM:
+        case Direction::BOTTOM:
             return "BOTTOM";
 
-        case  BOTTOM_LEFT:
+        case Direction::BOTTOM_LEFT:
             return "BOTTOM_LEFT";
 
-        case  LEFT:
+        case Direction::LEFT:
             return "LEFT";
 
-        case  TOP_LEFT:
+        case Direction::TOP_LEFT:
             return "TOP_LEFT";
     }
 }
 
 inline Direction getNextLeftDirection(Direction dir) {
     if(dir == TOP) {
-        return TOP_LEFT;
+        return Direction::TOP_LEFT;
     }
     return static_cast<Direction>(dir / 2);
 }
 
 inline Direction getNextRightDirection(Direction dir) {
-    if(dir == TOP_LEFT) {
+    if(dir == Direction::TOP_LEFT) {
         return TOP;
     }
     return static_cast<Direction>(dir * 2);
