@@ -32,7 +32,7 @@ struct Position {
     constexpr Position(size_t x, size_t y) : x{x}, y{y} {
     }
 
-    constexpr Position(Direction dir) : x{0}, y{0} {
+    Position(Direction dir) : x{0}, y{0} {
         setNewPosition(dir);
     }
 
