@@ -107,7 +107,10 @@ class Symbol {
         bool isValidSymbol() const;
 
         bool isJunctionSet(Direction d) const;
+        bool areJunctionsSet(std::uint8_t junctions) const;
+
         bool isOpenJunctionSet(Direction dir) const;
+        bool areOpenJunctionsSet(std::uint8_t junctions) const;
 
         int getJunktionsCount() const;
         int getOpenJunktionsCount() const;
