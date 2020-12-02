@@ -36,8 +36,8 @@ struct Position {
         setNewPosition(dir);
     }
 
-    size_t x;
-    size_t y;
+    std::size_t x;
+    std::size_t y;
 
     friend std::ostream& operator<< (std::ostream& os, const Position& pos) {
         os << "x: " << pos.x << " y: " << pos.y;
@@ -51,11 +51,11 @@ struct Position {
         return !(lhs == rhs);
     }
 
-    Position getDistance(Position pos) {
+    Position getDistance(const Position &pos) const {
         return Position(pos.x - x, pos.y - y);
     }
 
-    Position grow(Position pos) {
+    Position grow(const Position &pos) {
         x = pos.x > x ? pos.x : x;
         y = pos.y > y ? pos.y : y;
         return {x, y};
