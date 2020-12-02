@@ -147,24 +147,24 @@ bool Symbol::isValidSymbol() const {
     return false;
 }
 
-int Symbol::getJunktionsCount() const {
-    return countJunktions(symbolFix);
+int Symbol::getJunctionsCount() const {
+    return countJunctions(symbolFix);
 }
 
-int Symbol::getOpenJunktionsCount() const {
-    return countJunktions(symbolDyn);
+int Symbol::getOpenJunctionsCount() const {
+    return countJunctions(symbolDyn);
 }
 
-Direction Symbol::getNextJunktion(Direction start) const {
-    return nextJunktion(symbolFix, start);
+Direction Symbol::getNextJunction(Direction start) const {
+    return nextJunction(symbolFix, start);
 }
 
 bool Symbol::hasOpenJunctionsLeft() const {
     return static_cast<bool>(symbolDyn);
 }
 
-Direction Symbol::getNextOpenJunktion(Direction start) const {
-    return nextJunktion(symbolDyn, start);
+Direction Symbol::getNextOpenJunction(Direction start) const {
+    return nextJunction(symbolDyn, start);
 }
 
 void Symbol::reset() {
@@ -179,9 +179,9 @@ bool Symbol::isOpenJunctionSet(Direction dir) const {
     return symbolFix & static_cast<std::uint8_t>(dir);
 }
 
-void Symbol::removeJunktion(Direction dir) {
+void Symbol::removeJunction(Direction dir) {
      if(!(symbolDyn & static_cast<std::uint8_t>(dir))) {
-         throw std::out_of_range("junction not set");
+         throw std::out_of_range{"junction not set"};
      }
      symbolDyn &= ~static_cast<std::uint8_t>(dir);
 }
@@ -193,7 +193,7 @@ std::uint8_t Symbol::rotate(std::uint8_t symbol) {
     return symbol << 1;
 }
 
-int Symbol::countJunktions(std::uint8_t symbol) const {
+int Symbol::countJunctions(std::uint8_t symbol) const {
     int counter = 0;
     auto b = static_cast<std::uint8_t>(Direction::TOP);
     for(int i = 0; i < 8; ++i) {
@@ -205,7 +205,7 @@ int Symbol::countJunktions(std::uint8_t symbol) const {
     return counter;
 }
 
-Direction Symbol::nextJunktion(std::uint8_t symbol, Direction start) const {
+Direction Symbol::nextJunction(std::uint8_t symbol, Direction start) const {
     auto b = static_cast<std::uint8_t>(start);
     for(int i = 0; i < 8; ++i) {
         if(symbol & b) {

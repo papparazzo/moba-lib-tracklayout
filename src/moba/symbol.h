@@ -109,15 +109,15 @@ class Symbol {
         bool isJunctionSet(Direction d) const;
         bool isOpenJunctionSet(Direction dir) const;
 
-        int getJunktionsCount() const;
-        int getOpenJunktionsCount() const;
+        int getJunctionsCount() const;
+        int getOpenJunctionsCount() const;
 
-        Direction getNextJunktion(Direction start = Direction::TOP) const;
-        Direction getNextOpenJunktion(Direction start = Direction::TOP) const;
+        Direction getNextJunction(Direction start = Direction::TOP) const;
+        Direction getNextOpenJunction(Direction start = Direction::TOP) const;
 
         Direction getComplementaryDirection(Direction dir);
 
-        void removeJunktion(Direction curDir);
+        void removeJunction(Direction curDir);
 
         operator bool() const;
 
@@ -144,12 +144,12 @@ class Symbol {
         /**
          * Gibt die Anzahl der Verbindungspunkte zurück
          */
-        int countJunktions(std::uint8_t symbol) const;
+        int countJunctions(std::uint8_t symbol) const;
 
         /**
          * Gibt die nächste offene Verbindung zurück
          */
-        Direction nextJunktion(std::uint8_t symbol, Direction start = Direction::TOP) const;
+        Direction nextJunction(std::uint8_t symbol, Direction start = Direction::TOP) const;
 };
 
 
