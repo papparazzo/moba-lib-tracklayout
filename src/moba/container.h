@@ -23,8 +23,11 @@
 #include <exception>
 #include <string>
 #include <map>
+#include <memory>
+#include <functional>
 
 #include "position.h"
+#include "symbol.h"
 
 class ContainerException : public std::exception {
     public:
@@ -51,9 +54,6 @@ class Container {
         Container() {
         }
 
-        Container(std::size_t width, std::size_t height): maxPosition{width, height} {
-        }
-
         virtual ~Container() {
         }
 
@@ -65,30 +65,16 @@ class Container {
             return maxPosition.x;
         }
 
-        Position getCurrentPosition() const {
-            return curPosition;
-        }
-
-        void setCurrentPosition(const Position &pos) {
-            checkPosition(pos);
-            curPosition = pos;
-        }
-
-        void addItem(const Position &pos, T item) const {
-            maxPosition.grow(pos);
+        void addItem(const Position &pos, T item) {
             items[pos.x][pos.y] = item;
+            maxPosition.grow(pos);
         }
 
-        T get(const Position &pos) const {
-            this->checkPosition(pos);
+        T get(const Position &pos) {
             if(items[pos.x][pos.y] == nullptr) {
                 throw ContainerException{"no valid item"};
             }
             return items[pos.x][pos.y];
-        }
-
-        T get() const {
-            return get(curPosition);
         }
 
         std::size_t itemsCount() const {
@@ -103,42 +89,41 @@ class Container {
             return cnt;
         }
 
-        Position getNextFreePosition(const Position &pos) {
+        Position getNextFreePosition() {
             for(std::size_t y = 0; y < maxPosition.y; ++y) {
                 for(std::size_t x = 0; x < maxPosition.x; ++x) {
-                    if(static_cast<bool>(items[x][y])) {
-                        continue;
+                    if(!static_cast<bool>(items[x][y])) {
+                        return {x, y};
                     }
-                    return {x, y};
                 }
             }
             throw ContainerException{"No position found!"};
         }
 
-        Position getNextBoundPosition(const Position &pos) {
+        Position getNextBoundPosition() {
             for(std::size_t y = 0; y < maxPosition.y; ++y) {
                 for(std::size_t x = 0; x < maxPosition.x; ++x) {
-                    if(!static_cast<bool>(items[x][y])) {
-                        continue;
+                    if(static_cast<bool>(items[x][y])) {
+                        return {x, y};
                     }
-                    return {x, y};
+                }
+            }
+            throw ContainerException{"No position found!"};
+        }
+
+        Position getNextMatchPosition(std::function<bool(const T&)> fn) {
+            for(std::size_t y = 0; y < maxPosition.y; ++y) {
+                for(std::size_t x = 0; x < maxPosition.x; ++x) {
+                    if(fn(items[x][y])) {
+                        return {x, y};
+                    }
                 }
             }
             throw ContainerException{"No position found!"};
         }
 
     protected:
-        void checkPosition(const Position &pos) const {
-            if(pos.x >= maxPosition.x || pos.y >= maxPosition.y) {
-                throw ContainerException{"Dimensions out of range!"};
-            }
-        }
-
         Position maxPosition = {0, 0};
-        Position curPosition = {0, 0};
 
         std::map<std::size_t, std::map<std::size_t, T>> items;
 };
-
-
-
