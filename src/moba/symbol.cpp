@@ -175,11 +175,19 @@ bool Symbol::isJunctionSet(Direction dir) const {
     return symbolDyn & static_cast<std::uint8_t>(dir);
 }
 
+bool Symbol::areJunctionsSet(std::uint8_t junctions) const {
+    return (junctions == (symbolDyn & junctions));
+}
+
 bool Symbol::isOpenJunctionSet(Direction dir) const {
     return symbolFix & static_cast<std::uint8_t>(dir);
 }
 
-void Symbol::removeJunction(Direction dir) {
+bool Symbol::areOpenJunctionsSet(std::uint8_t junctions) const {
+    return (junctions == (symbolFix & junctions));
+}
+
+void Symbol::removeJunktion(Direction dir) {
      if(!(symbolDyn & static_cast<std::uint8_t>(dir))) {
          throw std::out_of_range{"junction not set"};
      }
