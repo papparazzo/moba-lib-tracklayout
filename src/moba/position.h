@@ -51,6 +51,31 @@ struct Position {
         return !(lhs == rhs);
     }
 
+    friend bool operator<(const Position& lhs, const Position& rhs) {
+        if(lhs.y < rhs.y) {
+            return true;
+        }
+        if(lhs.y > rhs.y) {
+            return false;
+        }
+        if(lhs.x < rhs.x) {
+            return true;
+        }
+        return false;
+    }
+
+    friend bool operator>(const Position& lhs, const Position& rhs) {
+        return (rhs < lhs);
+    }
+
+    friend bool operator<=(const Position& lhs, const Position& rhs) {
+        return !(rhs < lhs);
+    }
+
+    friend bool operator>=(const Position& lhs, const Position& rhs) {
+        return !(lhs < rhs);
+    }
+
     Position getDistance(const Position &pos) const {
         return Position(pos.x - x, pos.y - y);
     }
