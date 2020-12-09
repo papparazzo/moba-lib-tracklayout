@@ -122,43 +122,44 @@ inline Direction getComplementaryDirection(Direction dir) {
 enum class DistanceType {
     INVALID = 0,
     STRAIGHT = 1,
-    BEND = 2
+    LEFT_BEND = 2,
+    RIGHT_BEND = 3
 };
 
 /**
 * Die Distanz zwischen zwei Verbindungspunkte muss mindestens 3 Bit betragen, damit
 * zwei 2 Verbindungspunkte (auch als Teil einer Weiche) ein gültiges Gleis bilden.
-* Zu einem Verbindungspunkt dir1 kommen nur 3 mögliche Verbindungspunkte dir2 in Frage:
+* Zu einem Verbindungspunkt "dirIn" kommen nur 3 mögliche Verbindungspunkte "dirOut" in Frage:
 * 1. Der komplemntäre Verbindungspunkt (also ein gerades Gleis)
-* 2. Der komplemntäre Verbindungspunkt + 1 Bit (also gebogenes Gleis)
-* 3. Der komplemntäre Verbindungspunkt - 1 Bit (also gebogenes Gleis)
+* 2. Der komplemntäre Verbindungspunkt + 1 Bit (also rechts gebogenes Gleis)
+* 3. Der komplemntäre Verbindungspunkt - 1 Bit (also links gebogenes Gleis)
 *
 * @param dir1
 * @param dir2
 * @return DistanceType
 */
-inline DistanceType getDistanceType(Direction dir1, Direction dir2) {
-   if(dir1 == dir2) {
+inline DistanceType getDistanceType(Direction dirIn, Direction dirOut) {
+   if(dirIn == dirOut) {
        return DistanceType::INVALID;
    }
 
-   Direction dirc = getComplementaryDirection(dir1);
+   auto dirInCom = getComplementaryDirection(dirIn);
 
-   if(dir2 == dirc) {
+   if(dirOut == dirInCom) {
        return DistanceType::STRAIGHT;
    }
 
-   if(dir2 == (dirc * 2)) {
-       return DistanceType::BEND;
+   if(dirOut == (dirInCom * 2)) {
+       return DistanceType::RIGHT_BEND;
    }
 
    // Sonderfall: TOP == 1 -> 1 / 2 = 0 -> müsste hier jedoch 128 sein!!
-   if(dirc == TOP && dir2 == TOP_LEFT) {
-       return DistanceType::BEND;
+   if(dirInCom == TOP && dirOut == TOP_LEFT) {
+       return DistanceType::LEFT_BEND;
    }
 
-   if(dir2 == (dirc / 2)) {
-       return DistanceType::BEND;
+   if(dirOut == (dirInCom / 2)) {
+       return DistanceType::LEFT_BEND;
    }
 
    return DistanceType::INVALID;
