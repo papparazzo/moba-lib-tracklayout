@@ -110,7 +110,7 @@ bool Symbol::isRightSwitch() const {
     return check(8, Direction::RIGHT | Direction::LEFT | Direction::BOTTOM_RIGHT);
 }
 
-bool Symbol::isJunktionSwitch() const {
+bool Symbol::isSimpleSwitch() const {
     if(isRightSwitch()) {
         return true;
     }
@@ -128,7 +128,7 @@ bool Symbol::isSwitch() const {
     if(isCrossOverSwitch()) {
         return true;
     }
-    if(isJunktionSwitch()) {
+    if(isSimpleSwitch()) {
         return true;
     }
     if(isThreeWaySwitch()) {

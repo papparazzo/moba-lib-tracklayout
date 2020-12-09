@@ -89,7 +89,7 @@ class Symbol {
         /**
          * Prüft, ob Symbol eine Weiche ist
          */
-        bool isJunktionSwitch() const;
+        bool isSimpleSwitch() const;
 
         /**
          * Prüft, ob Symbol eine Dreiwegweiche ist
@@ -138,8 +138,8 @@ class Symbol {
          * Gegenüberliegende Verbindungspunkte gesetzt. Mit 4maligen rotieren hat man
          * sämtliche Kombinationen von geraden Gleisen durch
          *
-         * @param int i anzahl iteration (2, 4, 8)
-         * @param int b start bitmaske -> Das Startsymbol, was i-mal gedreht wird
+         * @param std::uint8_t i anzahl iteration (2, 4, 8)
+         * @param std::uint8_t b start bitmaske -> Das Startsymbol, was i-mal gedreht wird
          * @return bool true -> Symbol stimmt mit Vorlage überein, sonst false
          */
         bool check(std::uint8_t i, std::uint8_t b) const;
@@ -154,5 +154,3 @@ class Symbol {
          */
         Direction nextJunction(std::uint8_t symbol, Direction start = Direction::TOP) const;
 };
-
-
