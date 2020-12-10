@@ -21,6 +21,7 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 
 enum Direction {
     UNSET        = 0,
@@ -101,6 +102,22 @@ inline Direction getNextRightDirection(Direction dir) {
         return TOP;
     }
     return static_cast<Direction>(dir * 2);
+}
+
+inline Direction rotateLeft(Direction dir, std::uint8_t steps = 1) {
+    steps %= 8;
+    for(std::uint8_t i = 0; i < steps; ++i ) {
+        dir = getNextLeftDirection(dir);
+    }
+    return dir;
+}
+
+inline Direction rotateRight(Direction dir, std::uint8_t steps = 1) {
+    steps %= 8;
+    for(std::uint8_t i = 0; i < steps; ++i ) {
+        dir = getNextRightDirection(dir);
+    }
+    return dir;
 }
 
 /**
