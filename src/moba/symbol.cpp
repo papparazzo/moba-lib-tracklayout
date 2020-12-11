@@ -33,6 +33,48 @@ Symbol::operator bool() const {
     return isSymbol();
 }
 
+Symbol Symbol::getLeftSwitch() {
+    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_LEFT};
+}
+
+Symbol Symbol::getRightSwitch() {
+    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_RIGHT};
+}
+
+Symbol Symbol::getStraight() {
+    return Symbol{Direction::TOP | Direction::BOTTOM};
+}
+
+Symbol Symbol::getThreeWaySwitch() {
+    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_LEFT | Direction::TOP_RIGHT};
+}
+
+Symbol Symbol::getCrossOverSwitch() {
+    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_LEFT | Direction::TOP_RIGHT};
+}
+
+void Symbol::rotateLeft(std::uint8_t count) {
+    count &= 7;
+    symbolFix = (symbolFix << count) | (symbolFix >> (-count & 7));
+    symbolDyn = (symbolDyn << count) | (symbolDyn >> (-count & 7));
+}
+
+void Symbol::rotateRight(unsigned int count) {
+    count &= 7;
+    symbolFix = (symbolFix >> count) | (symbolFix << (-count & 7));
+    symbolDyn = (symbolDyn >> count) | (symbolDyn << (-count & 7));
+}
+
+std::uint8_t Symbol::getDistance(Symbol symbol) const {
+    for(std::uint8_t i = 0; i < 8; ++i) {
+        if(symbolFix == symbol.symbolFix) {
+            return i;
+        }
+        symbol.rotateRight();
+    }
+    throw std::invalid_argument("given symbol does not match"); 
+}
+
 bool Symbol::isSymbol() const {
     if(symbolFix != 0) {
         return true;
@@ -56,12 +98,12 @@ bool Symbol::isStartSymbol() const {
     return true;
 }
 
-bool Symbol::check(std::uint8_t i, std::uint8_t b) const {
+bool Symbol::check(std::uint8_t i, Symbol symbol) const {
     while(i--) {
-        if(symbolFix == b) {
+        if(symbolFix == symbol.symbolFix) {
             return true;
         }
-        b = Symbol::rotate(b);
+        symbol.rotateRight();
     }
     return false;
 }
@@ -71,7 +113,7 @@ bool Symbol::isEnd() const {
 }
 
 bool Symbol::isStraight() const {
-    return check(4, Direction::TOP | Direction::BOTTOM);
+    return check(4, Symbol::getStraight());
 }
 
 bool Symbol::isCrossOver() const {
@@ -99,15 +141,15 @@ bool Symbol::isTrack() const {
 }
 
 bool Symbol::isCrossOverSwitch() const {
-    return check(4, Direction::RIGHT | Direction::LEFT | Direction::TOP_RIGHT | Direction::BOTTOM_LEFT);
+    return check(4, Symbol::getCrossOverSwitch());
 }
 
 bool Symbol::isLeftSwitch() const {
-    return check(8, Direction::RIGHT | Direction::LEFT | Direction::TOP_RIGHT);
+    return check(8, Symbol::getLeftSwitch());
 }
 
 bool Symbol::isRightSwitch() const {
-    return check(8, Direction::RIGHT | Direction::LEFT | Direction::BOTTOM_RIGHT);
+    return check(8, Symbol::getRightSwitch());
 }
 
 bool Symbol::isSimpleSwitch() const {
@@ -121,7 +163,7 @@ bool Symbol::isSimpleSwitch() const {
 }
 
 bool Symbol::isThreeWaySwitch() const {
-    return check(8, Direction::TOP | Direction::BOTTOM | Direction::TOP_RIGHT | Direction::TOP_LEFT);
+    return check(8, Symbol::getThreeWaySwitch());
 }
 
 bool Symbol::isSwitch() const {
@@ -147,11 +189,11 @@ bool Symbol::isValidSymbol() const {
     return false;
 }
 
-int Symbol::getJunctionsCount() const {
+std::uint8_t Symbol::getJunctionsCount() const {
     return countJunctions(symbolFix);
 }
 
-int Symbol::getOpenJunctionsCount() const {
+std::uint8_t Symbol::getOpenJunctionsCount() const {
     return countJunctions(symbolDyn);
 }
 
@@ -169,6 +211,10 @@ Direction Symbol::getNextOpenJunction(Direction start) const {
 
 void Symbol::reset() {
     symbolDyn = symbolFix;
+}
+
+bool Symbol::isBlockSymbol() const {
+    return false;
 }
 
 bool Symbol::isJunctionSet(Direction dir) const {
@@ -194,32 +240,25 @@ void Symbol::removeJunction(Direction dir) {
      symbolDyn &= ~static_cast<std::uint8_t>(dir);
 }
 
-std::uint8_t Symbol::rotate(std::uint8_t symbol) {
-    if(symbol & 0x80) { // if last bit (Most significant bit) is set rotate it to bit 0
-        return (symbol << 1) | 0x1;
-    }
-    return symbol << 1;
-}
-
-int Symbol::countJunctions(std::uint8_t symbol) const {
-    int counter = 0;
+std::uint8_t Symbol::countJunctions(std::uint8_t symbol) const {
+    std::uint8_t counter = 0;
     auto b = static_cast<std::uint8_t>(Direction::TOP);
-    for(int i = 0; i < 8; ++i) {
+    for(std::uint8_t i = 0; i < 8; ++i) {
         if(symbol & b) {
             ++counter;
         }
-        b = rotate(b);
+        b <<= 1;
     }
     return counter;
 }
 
 Direction Symbol::nextJunction(std::uint8_t symbol, Direction start) const {
     auto b = static_cast<std::uint8_t>(start);
-    for(int i = 0; i < 8; ++i) {
+    for(std::uint8_t i = 0; i < 8; ++i) {
         if(symbol & b) {
             return static_cast<Direction>(b);
         }
-        b = rotate(b);
+        b = (b << 1) | (b >> 7);
     }
     return Direction::UNSET;
 }

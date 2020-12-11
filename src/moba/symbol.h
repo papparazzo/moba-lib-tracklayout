@@ -34,16 +34,45 @@ class Symbol {
             return symbolFix;
         }
 
+        Symbol static getLeftSwitch();
+
+        Symbol static getRightSwitch();
+
+        Symbol static getStraight();
+
+        Symbol static getThreeWaySwitch();
+
+        Symbol static getCrossOverSwitch();
+
         /**
          * rotiert ein Symbol mit "Überschlag" nach links. D.h. das letzte gesetzte Bit
          * rotiert wieder zum Anfang.
          *
-         * @param int symbol
-         * @return
+         * @param std::uint8_t count
          */
-        std::uint8_t static rotate(std::uint8_t s);
+        void rotateLeft(std::uint8_t count = 1);
 
+        /**
+         * rotiert ein Symbol mit "Überschlag" nach rechts. D.h. das erste gesetzte Bit
+         * rotiert wieder zum En de.
+         *
+         * @param std::uint8_t count
+         */
+        void rotateRight(unsigned int count = 1);
+
+        /**
+         * Prüft den Abstand zum übrergebenen Symbol
+         */ 
+        std::uint8_t getDistance(Symbol symbol) const;
+
+        /**
+         * Prüft, ob ein Symbol gesetzt ist
+         */ 
         bool isSymbol() const;
+
+        /**
+         * Prüft, ob ein Symbol auf der linken oberen Seite Anschlüsse hat 
+         */
         bool isStartSymbol() const;
 
         /**
@@ -112,8 +141,8 @@ class Symbol {
         bool isOpenJunctionSet(Direction dir) const;
         bool areOpenJunctionsSet(std::uint8_t junctions) const;
 
-        int getJunctionsCount() const;
-        int getOpenJunctionsCount() const;
+        std::uint8_t getJunctionsCount() const;
+        std::uint8_t getOpenJunctionsCount() const;
 
         Direction getNextJunction(Direction start = Direction::TOP) const;
         Direction getNextOpenJunction(Direction start = Direction::TOP) const;
@@ -126,6 +155,8 @@ class Symbol {
 
         bool hasOpenJunctionsLeft() const;
         void reset();
+
+        bool isBlockSymbol() const;
 
     protected:
         std::uint8_t symbolFix; // Symbol mit festen Verbindungen
@@ -142,12 +173,12 @@ class Symbol {
          * @param std::uint8_t b start bitmaske -> Das Startsymbol, was i-mal gedreht wird
          * @return bool true -> Symbol stimmt mit Vorlage überein, sonst false
          */
-        bool check(std::uint8_t i, std::uint8_t b) const;
+        bool check(std::uint8_t i, Symbol symbol) const;
 
         /**
          * Gibt die Anzahl der Verbindungspunkte zurück
          */
-        int countJunctions(std::uint8_t symbol) const;
+        std::uint8_t countJunctions(std::uint8_t symbol) const;
 
         /**
          * Gibt die nächste offene Verbindung zurück
