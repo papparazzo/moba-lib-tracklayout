@@ -29,28 +29,11 @@ Symbol::Symbol(std::uint8_t symbol) : symbolFix{symbol}, symbolDyn{symbol} {
     }
 }
 
+Symbol::Symbol(Symbol::SymbolType symbol) : symbolFix{static_cast<std::uint8_t>(symbol)}, symbolDyn{static_cast<std::uint8_t>(symbol)} {
+}
+
 Symbol::operator bool() const {
     return isSymbol();
-}
-
-Symbol Symbol::getLeftSwitch() {
-    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_LEFT};
-}
-
-Symbol Symbol::getRightSwitch() {
-    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_RIGHT};
-}
-
-Symbol Symbol::getStraight() {
-    return Symbol{Direction::TOP | Direction::BOTTOM};
-}
-
-Symbol Symbol::getThreeWaySwitch() {
-    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_LEFT | Direction::TOP_RIGHT};
-}
-
-Symbol Symbol::getCrossOverSwitch() {
-    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_RIGHT | Direction::BOTTOM_LEFT};
 }
 
 void Symbol::rotateLeft(std::uint8_t count) {
@@ -72,7 +55,7 @@ std::uint8_t Symbol::getDistance(Symbol symbol) const {
         }
         symbol.rotateRight();
     }
-    throw std::invalid_argument("given symbol does not match");
+    throw std::invalid_argument{"given symbol does not match"};
 }
 
 bool Symbol::isSymbol() const {
@@ -98,30 +81,34 @@ bool Symbol::isStartSymbol() const {
     return true;
 }
 
-bool Symbol::check(std::uint8_t i, Symbol symbol) const {
+bool Symbol::check(std::uint8_t i, std::uint8_t b) const {
     while(i--) {
-        if(symbolFix == symbol.symbolFix) {
+        if(symbolFix == b) {
             return true;
         }
-        symbol.rotateRight();
+        b = (b << 1) | (b >> 7);
     }
     return false;
 }
 
+bool Symbol::check(const Symbol &symbol) const {
+    return check(8, symbol.symbolFix);
+}
+
 bool Symbol::isEnd() const {
-    return check(8, Direction::TOP);
+    return check(8, SymbolType::END);
 }
 
 bool Symbol::isStraight() const {
-    return check(4, Symbol::getStraight());
+    return check(4, SymbolType::STRAIGHT);
 }
 
 bool Symbol::isCrossOver() const {
-    return check(2, Direction::TOP | Direction::BOTTOM | Direction::RIGHT | Direction::LEFT);
+    return check(2, SymbolType::CROSS_OVER);
 }
 
 bool Symbol::isBend() const {
-    return check(8, Direction::RIGHT | Direction::BOTTOM_LEFT);
+    return check(8, SymbolType::BEND);
 }
 
 bool Symbol::isTrack() const {
@@ -141,15 +128,15 @@ bool Symbol::isTrack() const {
 }
 
 bool Symbol::isCrossOverSwitch() const {
-    return check(4, Symbol::getCrossOverSwitch());
+    return check(4, SymbolType::CROSS_OVER_SWITCH);
 }
 
 bool Symbol::isLeftSwitch() const {
-    return check(8, Symbol::getLeftSwitch());
+    return check(8, SymbolType::LEFT_SWITCH);
 }
 
 bool Symbol::isRightSwitch() const {
-    return check(8, Symbol::getRightSwitch());
+    return check(8, SymbolType::RIGHT_SWITCH);
 }
 
 bool Symbol::isSimpleSwitch() const {
@@ -163,7 +150,7 @@ bool Symbol::isSimpleSwitch() const {
 }
 
 bool Symbol::isThreeWaySwitch() const {
-    return check(8, Symbol::getThreeWaySwitch());
+    return check(8, SymbolType::THREE_WAY_SWITCH);
 }
 
 bool Symbol::isSwitch() const {

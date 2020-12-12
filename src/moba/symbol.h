@@ -25,7 +25,20 @@
 
 class Symbol {
     public:
+        enum SymbolType {
+            END               = Direction::TOP,
+            STRAIGHT          = Direction::TOP | Direction::BOTTOM,
+            RIGHT_SWITCH      = Direction::TOP | Direction::BOTTOM | Direction::TOP_RIGHT,
+            CROSS_OVER_SWITCH = Direction::TOP | Direction::BOTTOM | Direction::TOP_RIGHT | Direction::BOTTOM_LEFT,
+            LEFT_SWITCH       = Direction::TOP | Direction::BOTTOM | Direction::TOP_LEFT,
+            THREE_WAY_SWITCH  = Direction::TOP | Direction::BOTTOM | Direction::TOP_LEFT | Direction::TOP_RIGHT,
+            CROSS_OVER        = Direction::TOP | Direction::BOTTOM | Direction::RIGHT | Direction::LEFT,
+            BEND              = Direction::TOP | Direction::BOTTOM_LEFT,
+        };
+
         Symbol(std::uint8_t symbol = 0);
+
+        Symbol(SymbolType symbol);
 
         virtual ~Symbol() {
         }
@@ -33,16 +46,6 @@ class Symbol {
         std::uint8_t getType() const {
             return symbolFix;
         }
-
-        Symbol static getLeftSwitch();
-
-        Symbol static getRightSwitch();
-
-        Symbol static getStraight();
-
-        Symbol static getThreeWaySwitch();
-
-        Symbol static getCrossOverSwitch();
 
         /**
          * rotiert ein Symbol mit "Überschlag" nach links. D.h. das letzte gesetzte Bit
@@ -62,16 +65,16 @@ class Symbol {
 
         /**
          * Prüft den Abstand zum übrergebenen Symbol
-         */ 
+         */
         std::uint8_t getDistance(Symbol symbol) const;
 
         /**
          * Prüft, ob ein Symbol gesetzt ist
-         */ 
+         */
         bool isSymbol() const;
 
         /**
-         * Prüft, ob ein Symbol auf der linken oberen Seite Anschlüsse hat 
+         * Prüft, ob ein Symbol auf der linken oberen Seite Anschlüsse hat
          */
         bool isStartSymbol() const;
 
@@ -173,7 +176,9 @@ class Symbol {
          * @param std::uint8_t b start bitmaske -> Das Startsymbol, was i-mal gedreht wird
          * @return bool true -> Symbol stimmt mit Vorlage überein, sonst false
          */
-        bool check(std::uint8_t i, Symbol symbol) const;
+        bool check(std::uint8_t i, std::uint8_t b) const;
+
+        bool check(const Symbol &symbol) const;
 
         /**
          * Gibt die Anzahl der Verbindungspunkte zurück
