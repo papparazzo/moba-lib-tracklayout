@@ -50,7 +50,7 @@ Symbol Symbol::getThreeWaySwitch() {
 }
 
 Symbol Symbol::getCrossOverSwitch() {
-    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_LEFT | Direction::TOP_RIGHT};
+    return Symbol{Direction::TOP | Direction::BOTTOM | Direction::TOP_RIGHT | Direction::BOTTOM_LEFT};
 }
 
 void Symbol::rotateLeft(std::uint8_t count) {
@@ -72,7 +72,7 @@ std::uint8_t Symbol::getDistance(Symbol symbol) const {
         }
         symbol.rotateRight();
     }
-    throw std::invalid_argument("given symbol does not match"); 
+    throw std::invalid_argument("given symbol does not match");
 }
 
 bool Symbol::isSymbol() const {
