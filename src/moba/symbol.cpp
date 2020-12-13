@@ -38,14 +38,14 @@ Symbol::operator bool() const {
 
 void Symbol::rotateLeft(std::uint8_t count) {
     count &= 7;
-    symbolFix = (symbolFix << count) | (symbolFix >> (-count & 7));
-    symbolDyn = (symbolDyn << count) | (symbolDyn >> (-count & 7));
+    symbolFix = (symbolFix >> count) | (symbolFix << (-count & 7));
+    symbolDyn = (symbolDyn >> count) | (symbolDyn << (-count & 7));
 }
 
 void Symbol::rotateRight(unsigned int count) {
     count &= 7;
-    symbolFix = (symbolFix >> count) | (symbolFix << (-count & 7));
-    symbolDyn = (symbolDyn >> count) | (symbolDyn << (-count & 7));
+    symbolFix = (symbolFix << count) | (symbolFix >> (-count & 7));
+    symbolDyn = (symbolDyn << count) | (symbolDyn >> (-count & 7));
 }
 
 std::uint8_t Symbol::getDistance(Symbol symbol) const {
