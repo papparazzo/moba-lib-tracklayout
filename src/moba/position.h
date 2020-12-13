@@ -93,35 +93,35 @@ struct Position {
      */
     void setNewPosition(Direction d) {
         switch(d) {
-            case UNSET:
+            case Direction::UNSET:
                 return;
 
-            case TOP_RIGHT:
+            case Direction::TOP_RIGHT:
                 x++;  // fall-through
 
-            case TOP:
+            case Direction::TOP:
                 y--;
                 break;
 
-            case BOTTOM_RIGHT:
+            case Direction::BOTTOM_RIGHT:
                 y++; // fall-through
 
-            case RIGHT:
+            case Direction::RIGHT:
                 x++;
                 return;
 
-            case BOTTOM:
+            case Direction::BOTTOM:
                 y++;
                 return;
 
-            case BOTTOM_LEFT:
+            case Direction::BOTTOM_LEFT:
                 y++;  // fall-through
 
-            case LEFT:
+            case Direction::LEFT:
                 x--;
                 break;
 
-            case TOP_LEFT:
+            case Direction::TOP_LEFT:
                 y--;
                 x--;
                 break;
