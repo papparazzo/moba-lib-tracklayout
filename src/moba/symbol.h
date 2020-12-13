@@ -147,8 +147,8 @@ class Symbol {
         std::uint8_t getJunctionsCount() const;
         std::uint8_t getOpenJunctionsCount() const;
 
-        Direction getNextJunction(Direction start = Direction::TOP) const;
-        Direction getNextOpenJunction(Direction start = Direction::TOP) const;
+        Direction getNextJunction(Direction start = Direction::TOP_LEFT) const;
+        Direction getNextOpenJunction(Direction start = Direction::TOP_LEFT) const;
 
         Direction getComplementaryDirection(Direction dir);
 

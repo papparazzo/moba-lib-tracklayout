@@ -242,10 +242,10 @@ std::uint8_t Symbol::countJunctions(std::uint8_t symbol) const {
 Direction Symbol::nextJunction(std::uint8_t symbol, Direction start) const {
     auto b = static_cast<std::uint8_t>(start);
     for(std::uint8_t i = 0; i < 8; ++i) {
+        b = (b << 1) | (b >> 7);
         if(symbol & b) {
             return static_cast<Direction>(b);
         }
-        b = (b << 1) | (b >> 7);
     }
     return Direction::UNSET;
 }
