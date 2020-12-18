@@ -3,8 +3,7 @@ noinst_LIBRARIES = \
     libtracklayout.a
 libtracklayout_a_SOURCES = \
     symbol.cpp \
-    actuation.cpp \
-    overlay_block.cpp
+    actuation.cpp
 
 LDFLAGS += -L/usr/local/lib
 
