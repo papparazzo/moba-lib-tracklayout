@@ -39,10 +39,10 @@ struct Direction {
         TOP_LEFT     = 128
     };
 
-    Direction() : position{UNSET} {
+    constexpr Direction() : position{UNSET} {
     }
 
-    Direction(Position position) : position{position} {
+    constexpr Direction(Position position) : position{position} {
     }
 
     Direction(std::uint8_t position) {
