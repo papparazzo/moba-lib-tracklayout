@@ -200,10 +200,6 @@ void Symbol::reset() {
     symbolDyn = symbolFix;
 }
 
-bool Symbol::isBlockSymbol() const {
-    return false;
-}
-
 bool Symbol::isJunctionSet(Direction dir) const {
     return symbolDyn & static_cast<std::uint8_t>(dir);
 }
