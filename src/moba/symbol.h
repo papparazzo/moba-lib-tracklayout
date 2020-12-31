@@ -159,8 +159,6 @@ class Symbol {
         bool hasOpenJunctionsLeft() const;
         void reset();
 
-        bool isBlockSymbol() const;
-
     protected:
         std::uint8_t symbolFix; // Symbol mit festen Verbindungen
         std::uint8_t symbolDyn; // Symbol mit dynamischen Verbindungen

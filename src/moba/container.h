@@ -66,64 +66,33 @@ class Container {
         }
 
         void addItem(const Position &pos, T item) {
-            items[pos.x][pos.y] = item;
+            items[pos] = item;
             maxPosition.grow(pos);
         }
 
         T get(const Position &pos) {
-            if(items[pos.x][pos.y] == nullptr) {
+            auto iter = items.find(pos);
+
+            if(iter == items.end()) {
                 throw ContainerException{"no valid item"};
             }
-            return items[pos.x][pos.y];
+            return iter->second;
         }
 
         std::size_t itemsCount() const {
-            std::size_t cnt = 0;
-            for(std::size_t y = 0; y < maxPosition.y; ++y) {
-                for(std::size_t x = 0; x < maxPosition.x; ++x) {
-                    if(static_cast<bool>(items[x][y])) {
-                        cnt++;;
-                    }
-                }
-            }
-            return cnt;
-        }
-
-        Position getNextFreePosition() {
-            for(std::size_t y = 0; y < maxPosition.y; ++y) {
-                for(std::size_t x = 0; x < maxPosition.x; ++x) {
-                    if(!static_cast<bool>(items[x][y])) {
-                        return {x, y};
-                    }
-                }
-            }
-            throw ContainerException{"No position found!"};
+            return items.count();
         }
 
         Position getNextBoundPosition() {
-            for(std::size_t y = 0; y < maxPosition.y; ++y) {
-                for(std::size_t x = 0; x < maxPosition.x; ++x) {
-                    if(static_cast<bool>(items[x][y])) {
-                        return {x, y};
-                    }
-                }
-            }
-            throw ContainerException{"No position found!"};
-        }
+            auto iter = items.begin();
 
-        Position getNextMatchPosition(std::function<bool(const T&)> fn) {
-            for(std::size_t y = 0; y < maxPosition.y; ++y) {
-                for(std::size_t x = 0; x < maxPosition.x; ++x) {
-                    if(fn(items[x][y])) {
-                        return {x, y};
-                    }
-                }
+            if(iter == items.end()) {
+                throw ContainerException{"No position found!"};
             }
-            throw ContainerException{"No position found!"};
+            return iter->first;
         }
 
     protected:
         Position maxPosition = {0, 0};
-
-        std::map<std::size_t, std::map<std::size_t, T>> items;
+        std::map<Position, T> items;
 };

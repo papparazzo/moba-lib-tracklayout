@@ -77,7 +77,7 @@ struct Position {
     }
 
     Position getDistance(const Position &pos) const {
-        return Position(pos.x - x, pos.y - y);
+        return {pos.x - x, pos.y - y};
     }
 
     Position grow(const Position &pos) {
