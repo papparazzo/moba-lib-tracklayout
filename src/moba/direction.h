@@ -121,7 +121,7 @@ struct Direction {
 
     Direction operator--(int) {
         Direction tmp(*this);
-        operator++();
+        operator--();
         return tmp;
     }
 
