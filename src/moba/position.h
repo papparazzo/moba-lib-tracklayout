@@ -40,7 +40,7 @@ struct Position {
     std::size_t y;
 
     friend std::ostream& operator<< (std::ostream& os, const Position& pos) {
-        os << "x: " << pos.x << " y: " << pos.y;
+        os << "x:" << pos.x << ", y:" << pos.y;
         return os;
     }
 
