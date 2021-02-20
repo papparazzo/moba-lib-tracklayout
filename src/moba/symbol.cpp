@@ -218,7 +218,7 @@ bool Symbol::areOpenJunctionsSet(std::uint8_t junctions) const {
 
 void Symbol::removeJunction(Direction dir) {
      if(!(symbolDyn & static_cast<std::uint8_t>(dir))) {
-         throw std::out_of_range{"junction not set"};
+         return;
      }
      symbolDyn &= ~static_cast<std::uint8_t>(dir);
 }
