@@ -216,11 +216,12 @@ bool Symbol::areOpenJunctionsSet(std::uint8_t junctions) const {
     return (junctions == (symbolFix & junctions));
 }
 
-void Symbol::removeJunction(Direction dir) {
+bool Symbol::removeJunction(Direction dir) {
      if(!(symbolDyn & static_cast<std::uint8_t>(dir))) {
-         return;
+         return false;
      }
      symbolDyn &= ~static_cast<std::uint8_t>(dir);
+     return true;
 }
 
 std::uint8_t Symbol::countJunctions(std::uint8_t symbol) const {

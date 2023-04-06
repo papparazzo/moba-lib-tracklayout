@@ -152,7 +152,7 @@ class Symbol {
 
         Direction getComplementaryDirection(Direction dir);
 
-        void removeJunction(Direction curDir);
+        bool removeJunction(Direction curDir);
 
         operator bool() const;
 
