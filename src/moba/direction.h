@@ -39,10 +39,11 @@ struct Direction {
         TOP_LEFT     = 128
     };
 
-    constexpr Direction() : position{UNSET} {
+    constexpr Direction(): position{UNSET} {
     }
 
-    constexpr Direction(Position position) : position{position} {
+    constexpr Direction(Position position):
+    position{static_cast<std::uint8_t>(position)} {
     }
 
     Direction(std::uint8_t position) {
