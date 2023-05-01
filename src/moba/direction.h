@@ -86,6 +86,8 @@ struct Direction {
                 return Direction::TOP;
             case 9:
                 return Direction::TOP_RIGHT;
+            default:
+                throw std::out_of_range{"invalid value given"};
         }
     }
 
