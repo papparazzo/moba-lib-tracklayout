@@ -24,7 +24,6 @@
 #include <cassert>
 
 #include "node.h"
-#include "moba/driving_direction.h"
 #include "moba/direction.h"
 #include "moba/train.h"
 
