@@ -23,13 +23,13 @@
 #include <exception>
 #include <stdexcept>
 
-Symbol::Symbol(std::uint8_t symbol) : symbolFix{symbol}, symbolDyn{symbol} {
+Symbol::Symbol(std::uint8_t symbol): symbolFix{symbol}, symbolDyn{symbol} {
     if(isSymbol() && !isValidSymbol()) {
         throw std::invalid_argument("invalid symbol given");
     }
 }
 
-Symbol::Symbol(Symbol::SymbolType symbol) : symbolFix{static_cast<std::uint8_t>(symbol)}, symbolDyn{static_cast<std::uint8_t>(symbol)} {
+Symbol::Symbol(Symbol::SymbolType symbol): symbolFix{static_cast<std::uint8_t>(symbol)}, symbolDyn{static_cast<std::uint8_t>(symbol)} {
 }
 
 Symbol::operator bool() const {
