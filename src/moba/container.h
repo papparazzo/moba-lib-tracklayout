@@ -29,70 +29,67 @@
 #include "position.h"
 #include "symbol.h"
 
-class ContainerException : public std::exception {
-    public:
-        explicit ContainerException(const std::string &err) noexcept : what_{err} {
-        }
+class ContainerException: public std::exception {
 
-        ContainerException() noexcept : what_{"Unknown error"} {
-        }
+    std::string what_;
+    
+public:
+    explicit ContainerException(const std::string &err) noexcept: what_{err} {
+    }
 
-        virtual ~ContainerException() noexcept {
-        }
+    ContainerException() noexcept: what_{"Unknown error"} {
+    }
 
-        virtual const char *what() const noexcept {
-            return this->what_.c_str();
-        }
+    virtual ~ContainerException() noexcept = default;
 
-    private:
-        std::string what_;
+    virtual const char *what() const noexcept {
+        return this->what_.c_str();
+    }
 };
 
 template<typename T>
 class Container {
-    public:
-        Container() {
+public:
+    Container() = default;
+
+    virtual ~Container() noexcept = default;
+
+    std::size_t getHeight() const {
+        return maxPosition.y;
+    }
+
+    std::size_t getWidth() const {
+        return maxPosition.x;
+    }
+
+    void addItem(const Position &pos, T item) {
+        items[pos] = item;
+        maxPosition.grow(pos);
+    }
+
+    T get(const Position &pos) {
+        auto iter = items.find(pos);
+
+        if(iter == items.end()) {
+            throw ContainerException{"no valid item"};
         }
+        return iter->second;
+    }
 
-        virtual ~Container() {
+    std::size_t itemsCount() const {
+        return items.count();
+    }
+
+    Position getNextBoundPosition() {
+        auto iter = items.begin();
+
+        if(iter == items.end()) {
+            throw ContainerException{"No position found!"};
         }
+        return iter->first;
+    }
 
-        std::size_t getHeight() const {
-            return maxPosition.y;
-        }
-
-        std::size_t getWidth() const {
-            return maxPosition.x;
-        }
-
-        void addItem(const Position &pos, T item) {
-            items[pos] = item;
-            maxPosition.grow(pos);
-        }
-
-        T get(const Position &pos) {
-            auto iter = items.find(pos);
-
-            if(iter == items.end()) {
-                throw ContainerException{"no valid item"};
-            }
-            return iter->second;
-        }
-
-        std::size_t itemsCount() const {
-            return items.count();
-        }
-
-        Position getNextBoundPosition() {
-            auto iter = items.begin();
-
-            if(iter == items.end()) {
-                throw ContainerException{"No position found!"};
-            }
-            return iter->first;
-        }
-
-    protected:
-        Position maxPosition = {0, 0};
-        std::map<Position, T> items;
+protected:
+    Position maxPosition = {0, 0};
+    std::map<Position, T> items;
 };
