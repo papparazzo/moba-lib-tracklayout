@@ -31,16 +31,16 @@
 
 class ContainerException : public std::exception {
     public:
-        explicit ContainerException(const std::string &err) throw() : what_{err} {
+        explicit ContainerException(const std::string &err) noexcept : what_{err} {
         }
 
-        ContainerException() throw() : what_{"Unknown error"} {
+        ContainerException() noexcept : what_{"Unknown error"} {
         }
 
-        virtual ~ContainerException() throw() {
+        virtual ~ContainerException() noexcept {
         }
 
-        virtual const char *what() const throw() {
+        virtual const char *what() const noexcept {
             return this->what_.c_str();
         }
 
