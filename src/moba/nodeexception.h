@@ -28,15 +28,15 @@ class NodeException: public std::exception {
     std::string what_;
 
 public:
-    explicit NodeException(const std::string &err) throw(): what_{err} {
+    explicit NodeException(const std::string &err) noexcept: what_{err} {
     }
 
-    NodeException() throw(): what_{"Unknown error"} {
+    NodeException() noexcept: what_{"Unknown error"} {
     }
 
-    virtual ~NodeException() throw() = default;
+    virtual ~NodeException() noexcept = default;
 
-    virtual const char *what() const throw() {
+    virtual const char *what() const noexcept {
         return this->what_.c_str();
     }
 };
