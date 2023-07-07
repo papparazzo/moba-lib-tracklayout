@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
-#configure_file(config.h.in config.h)
+configure_file(config.h.in config.h)
 
 include(GNUInstallDirs)
 add_library(
