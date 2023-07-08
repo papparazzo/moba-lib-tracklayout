@@ -17,4 +17,4 @@ add_library(
 
 install(TARGETS moba-lib-tracklayout)
 
-#target_include_directories(moba-lib-tracklaout PUBLIC "${PROJECT_BINARY_DIR}")
+target_include_directories(moba-lib-tracklayout PUBLIC "${PROJECT_BINARY_DIR}")
