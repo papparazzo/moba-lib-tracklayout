@@ -20,9 +20,6 @@
 
 #include "symbol.h"
 
-#include <exception>
-#include <stdexcept>
-
 Symbol::Symbol(std::uint8_t symbol): symbolFix{symbol}, symbolDyn{symbol} {
     if(isSymbol() && !isValidSymbol()) {
         throw std::invalid_argument("invalid symbol given");
