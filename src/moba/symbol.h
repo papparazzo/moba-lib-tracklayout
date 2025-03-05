@@ -98,7 +98,7 @@ public:
     [[nodiscard]] bool isBend() const;
 
     /**
-     * Prüft, ob das Symbol ein einfaches Gleis ist (keine Weiche...)
+     * Prüft, ob das Symbol ein einfaches Gleis ist (keine Weiche ...)
      */
     [[nodiscard]] bool isTrack() const;
 
@@ -110,34 +110,34 @@ public:
     /**
      * Prüft, ob Symbol eine Linksweiche ist
      */
-    bool isLeftSwitch() const;
+    [[nodiscard]] bool isLeftSwitch() const;
 
     /**
      * Prüft, ob Symbol eine Rechtsweiche ist
      */
-    bool isRightSwitch() const;
+    [[nodiscard]] bool isRightSwitch() const;
 
     /**
      * Prüft, ob Symbol eine Weiche ist
      */
-    bool isSimpleSwitch() const;
+    [[nodiscard]] bool isSimpleSwitch() const;
 
     /**
      * Prüft, ob Symbol eine Dreiwegweiche ist
      */
-    bool isThreeWaySwitch() const;
+    [[nodiscard]] bool isThreeWaySwitch() const;
 
     /**
      * Prüft, ob Symbol kein einfaches Gleis ist
      */
-    bool isSwitch() const;
+    [[nodiscard]] bool isSwitch() const;
 
     /**
      * Prüft, ob Symbol ein gültiges Symbol ist
      */
-    bool isValidSymbol() const;
+    [[nodiscard]] bool isValidSymbol() const;
 
-    bool isJunctionSet(Direction d) const;
+    [[nodiscard]] bool isJunctionSet(Direction d) const;
     bool areJunctionsSet(std::uint8_t junctions) const;
 
     bool isOpenJunctionSet(Direction dir) const;
@@ -147,15 +147,15 @@ public:
     std::uint8_t getOpenJunctionsCount() const;
 
     Direction getNextJunction(Direction start = Direction::TOP_LEFT) const;
-    Direction getNextOpenJunction(Direction start = Direction::TOP_LEFT) const;
+    [[nodiscard]] Direction getNextOpenJunction(Direction start = Direction::TOP_LEFT) const;
 
     Direction getComplementaryDirection(Direction dir);
 
     bool removeJunction(Direction curDir);
 
-    operator bool() const;
+    explicit operator bool() const;
 
-    bool hasOpenJunctionsLeft() const;
+    [[nodiscard]] bool hasOpenJunctionsLeft() const;
     void reset();
 
 protected:
@@ -164,18 +164,18 @@ protected:
 
     /**
      * Prüft, ob ein bestimmtes Bit-Muster (z.B. für gerades / gebogenes Gleis)
-     * gesetzt ist. Durch rotieren der Bits (@see rotate) kann jede Position durch
+     * gesetzt ist. Durch Rotieren der Bits Symbol::rotate kann jede Position durch-
      * probiert werden. Simples Beispiel: Bei einem geraden Gleis sind die jeweiligen
-     * Gegenüberliegende Verbindungspunkte gesetzt. Mit 4maligen rotieren hat man
+     * gegenüberliegende Verbindungspunkte gesetzt. Mit 4-maligen rotieren hat man
      * sämtliche Kombinationen von geraden Gleisen durch
      *
      * @param std::uint8_t i anzahl iteration (2, 4, 8)
      * @param std::uint8_t b start bitmaske -> Das Startsymbol, was i-mal gedreht wird
      * @return bool true -> Symbol stimmt mit Vorlage überein, sonst false
      */
-    bool check(std::uint8_t i, std::uint8_t b) const;
+    [[nodiscard]] bool check(std::uint8_t i, std::uint8_t b) const;
 
-    bool check(const Symbol &symbol) const;
+    [[nodiscard]] bool check(const Symbol &symbol) const;
 
     /**
      * Gibt die Anzahl der Verbindungspunkte zurück
