@@ -42,7 +42,7 @@ public:
 
     virtual ~Symbol() noexcept = default;
 
-    std::uint8_t getType() const {
+    [[nodiscard]] std::uint8_t getType() const {
         return symbolFix;
     }
 
@@ -65,47 +65,47 @@ public:
     /**
      * Prüft den Abstand zum übrergebenen Symbol
      */
-    std::uint8_t getDistance(Symbol symbol) const;
+    [[nodiscard]] std::uint8_t getDistance(Symbol symbol) const;
 
     /**
      * Prüft, ob ein Symbol gesetzt ist
      */
-    bool isSymbol() const;
+    [[nodiscard]] bool isSymbol() const;
 
     /**
      * Prüft, ob ein Symbol auf der linken oberen Seite Anschlüsse hat
      */
-    bool isStartSymbol() const;
+    [[nodiscard]] bool isStartSymbol() const;
 
     /**
      * Prüft, ob das Symbol ein Endsymbol (Prellbock) ist
      */
-    bool isEnd() const;
+    [[nodiscard]] bool isEnd() const;
 
     /**
      * Prüft, ob das Symbol ein gerades Gleis ist
      */
-    bool isStraight() const;
+    [[nodiscard]] bool isStraight() const;
 
     /**
      * Prüft, ob das Symobl eine einfache Kreuzung ist
      */
-    bool isCrossOver() const;
+    [[nodiscard]] bool isCrossOver() const;
 
     /**
      * Prüft, ob das Symbol gebogen ist
      */
-    bool isBend() const;
+    [[nodiscard]] bool isBend() const;
 
     /**
      * Prüft, ob das Symbol ein einfaches Gleis ist (keine Weiche...)
      */
-    bool isTrack() const;
+    [[nodiscard]] bool isTrack() const;
 
     /**
      * Prüft, ob das Symob eine Doppelte Kreuzungsweiche ist
      */
-    bool isCrossOverSwitch() const;
+    [[nodiscard]] bool isCrossOverSwitch() const;
 
     /**
      * Prüft, ob Symbol eine Linksweiche ist
