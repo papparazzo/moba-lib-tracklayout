@@ -39,6 +39,7 @@ struct Block: public Node {
     virtual ~Block() noexcept = default;
 
     void setJunctionNode(Direction dir, NodePtr node) {
+        // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
         switch(dir) {
             case Direction::TOP:
             case Direction::TOP_RIGHT:
@@ -68,6 +69,7 @@ struct Block: public Node {
     }
 
     NodePtr getJunctionNode(Direction dir) const {
+        // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
         switch(dir) {
             case Direction::TOP:
             case Direction::TOP_RIGHT:
