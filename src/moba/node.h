@@ -43,7 +43,7 @@ struct Node {
         currentState = stand;
     }
 
-    unsigned int getId() const {
+    [[nodiscard]] unsigned int getId() const {
         return id;
     }
 
