@@ -33,7 +33,7 @@ using BlockPtr = std::shared_ptr<Block>;
 
 struct Block: public Node {
 
-    Block(unsigned int id): Node{id} {
+    Block(const unsigned int id): Node{id} {
     }
 
     virtual ~Block() noexcept = default;
