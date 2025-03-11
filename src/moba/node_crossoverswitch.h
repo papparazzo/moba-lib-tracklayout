@@ -83,8 +83,10 @@ struct CrossOverSwitch: public Node {
 
             case Direction::BOTTOM_LEFT:
                 return inLeft;
+
+            default:
+                throw NodeException{"invalid direction given!"};
         }
-        throw NodeException{"invalid direction given!"};
     }
 
     NodePtr getInNode() const {
@@ -96,8 +98,10 @@ struct CrossOverSwitch: public Node {
             case moba::SwitchStand::STRAIGHT_1:
             case moba::SwitchStand::STRAIGHT_2:
                 return outRight;
+
+            default:
+                throw NodeException{"invalid switch state given!"};
         }
-        throw NodeException{"invalid switch state given!"};
     }
 
     NodePtr getOutNode() const {
