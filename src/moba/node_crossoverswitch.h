@@ -30,6 +30,7 @@ struct CrossOverSwitch: public Node {
     virtual ~CrossOverSwitch() noexcept = default;
 
     void setJunctionNode(Direction dir, NodePtr node) {
+        // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
         switch(dir) {
             case Direction::TOP:
                 outTop = node;
