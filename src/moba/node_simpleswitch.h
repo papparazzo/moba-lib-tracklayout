@@ -43,8 +43,10 @@ struct SimpleSwitch: public Node {
             case Direction::BOTTOM:
                 in = node;
                 return;
+
+            default:
+                throw NodeException{"invalid direction given!"};
         }
-        throw NodeException{"invalid direction given!"};
     }
 
     NodePtr getJunctionNode(NodePtr node) const {
@@ -100,8 +102,10 @@ struct SimpleSwitch: public Node {
 
             case Direction::BOTTOM:
                 return in;
+
+            default:
+                throw NodeException{"invalid direction given!"};
         }
-        throw NodeException{"invalid direction given!"};
     }
     
 protected:
