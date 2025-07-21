@@ -42,7 +42,7 @@ struct Direction {
     constexpr Direction(): position{UNSET} {
     }
 
-    constexpr Direction(Position position):
+    Direction(const Position position):
     position{static_cast<std::uint8_t>(position)} {
     }
 
@@ -101,7 +101,7 @@ struct Direction {
     }
 
     Direction operator++(int) {
-        Direction tmp(*this);
+        const Direction tmp(*this);
         operator++();
         return tmp;
     }
@@ -112,7 +112,7 @@ struct Direction {
         return *this;
     }
 
-    friend Direction operator+(Direction lhs, std::uint8_t steps) {
+    friend Direction operator+(Direction lhs, const std::uint8_t steps) {
         lhs += steps;
         return lhs;
     }
@@ -123,7 +123,7 @@ struct Direction {
     }
 
     Direction operator--(int) {
-        Direction tmp(*this);
+        const Direction tmp(*this);
         operator--();
         return tmp;
     }
@@ -134,7 +134,7 @@ struct Direction {
         return *this;
     }
 
-    friend Direction operator-(Direction lhs, std::uint8_t steps) {
+    friend Direction operator-(Direction lhs, const std::uint8_t steps) {
         lhs -= steps;
         return lhs;
     }
@@ -192,7 +192,8 @@ struct Direction {
     * @param dir2
     * @return DistanceType
     */
-    inline DistanceType getDistanceType(Direction dirOut) {
+    [[nodiscard]]
+    DistanceType getDistanceType(const Direction dirOut) const {
        auto dirInCom = getComplementaryDirection();
 
        if(dirOut == ++dirInCom) {
