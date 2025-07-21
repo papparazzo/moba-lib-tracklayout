@@ -96,7 +96,7 @@ struct Direction {
     }
 
     Direction& operator++() {
-        position = (position << 1) | (position >> 7);
+        position = position << 1 | position >> 7;
         return *this;
     }
 
@@ -108,7 +108,7 @@ struct Direction {
 
     Direction& operator+=(std::uint8_t steps) {
         steps &= 7;
-        position = (position << steps) | (position >> (-steps & 7));
+        position = position << steps | position >> (-steps & 7);
         return *this;
     }
 
@@ -118,7 +118,7 @@ struct Direction {
     }
 
     Direction& operator--() {
-        position = (position >> 1) | (position << 7);
+        position = position >> 1 | position << 7;
         return *this;
     }
 
@@ -130,7 +130,7 @@ struct Direction {
 
     Direction& operator-=(std::uint8_t steps) {
         steps &= 7;
-        position = (position >> steps) | (position << (-steps & 7));
+        position = position >> steps | position << (-steps & 7);
         return *this;
     }
 
@@ -141,31 +141,31 @@ struct Direction {
 
     friend std::ostream& operator<<(std::ostream& os, const Direction& dir) {
         switch(dir.position) {
-            case Direction::UNSET:
+            case UNSET:
                 return os << "UNSET";
 
-            case Direction::TOP:
+            case TOP:
                 return os << "TOP";
 
-            case Direction::TOP_RIGHT:
+            case TOP_RIGHT:
                 return os << "TOP_RIGHT";
 
-            case Direction::RIGHT:
+            case RIGHT:
                 return os << "RIGHT";
 
-            case Direction::BOTTOM_RIGHT:
+            case BOTTOM_RIGHT:
                 return os << "BOTTOM_RIGHT";
 
-            case Direction::BOTTOM:
+            case BOTTOM:
                 return os << "BOTTOM";
 
-            case Direction::BOTTOM_LEFT:
+            case BOTTOM_LEFT:
                 return os << "BOTTOM_LEFT";
 
-            case Direction::LEFT:
+            case LEFT:
                 return os << "LEFT";
 
-            case Direction::TOP_LEFT:
+            case TOP_LEFT:
                 return os << "TOP_LEFT";
 
             default:
@@ -197,22 +197,23 @@ struct Direction {
        auto dirInCom = getComplementaryDirection();
 
        if(dirOut == ++dirInCom) {
-           return DistanceType::RIGHT_BEND;
+           return RIGHT_BEND;
        }
 
        if(dirOut == --dirInCom) {
-           return DistanceType::STRAIGHT;
+           return STRAIGHT;
        }
 
        if(dirOut == --dirInCom) {
-           return DistanceType::LEFT_BEND;
+           return LEFT_BEND;
        }
 
-       return DistanceType::INVALID;
+       return INVALID;
     }
 
+    [[nodiscard]]
     Direction getComplementaryDirection() const {
-        return (position << 4) | (position >> 4);
+        return position << 4 | position >> 4;
     }
 
 protected:
