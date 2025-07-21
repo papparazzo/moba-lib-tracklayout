@@ -181,15 +181,14 @@ struct Direction {
     };
 
     /**
-    * Die Distanz zwischen zwei Verbindungspunkte muss mindestens 3 Bit betragen, damit
+    * Die Distanz zwischen zwei Verbindungspunkten muss mindestens 3 Bits betragen, damit
     * zwei 2 Verbindungspunkte (auch als Teil einer Weiche) ein gültiges Gleis bilden.
-    * Zu einem Verbindungspunkt "dirIn" kommen nur 3 mögliche Verbindungspunkte "dirOut" in Frage:
-    * 1. Der komplemntäre Verbindungspunkt (also ein gerades Gleis)
-    * 2. Der komplemntäre Verbindungspunkt + 1 Bit (also rechts gebogenes Gleis)
-    * 3. Der komplemntäre Verbindungspunkt - 1 Bit (also links gebogenes Gleis)
+    * Zu einem Verbindungspunkt "dirIn" kommen nur 3 mögliche Verbindungspunkte "dirOut" infrage:
+    * 1. Der komplementäre Verbindungspunkt (also ein gerades Gleis)
+    * 2. Der komplementäre Verbindungspunkt + 1 Bit (also rechts gebogenes Gleis)
+    * 3. Der komplementäre Verbindungspunkt - 1 Bit (also links gebogenes Gleis)
     *
-    * @param dir1
-    * @param dir2
+    * @param dirOut
     * @return DistanceType
     */
     [[nodiscard]]
