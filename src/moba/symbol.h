@@ -36,9 +36,9 @@ public:
         BEND              = Direction::TOP | Direction::BOTTOM_LEFT,
     };
 
-    Symbol(std::uint8_t symbol = 0);
+    explicit Symbol(std::uint8_t symbol = 0);
 
-    Symbol(SymbolType symbol);
+    explicit Symbol(SymbolType symbol);
 
     virtual ~Symbol() noexcept = default;
 
